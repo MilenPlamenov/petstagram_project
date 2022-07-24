@@ -1,0 +1,76 @@
+{% extends 'home_page.html' %}
+
+{% block nav %}
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:2%">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Add Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Add Photo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navigation Bar -->
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- TODO showing the pet photos in the dashboard -->
+        {% if not pet_photos %}
+            <!-- If there are NO pet photos -->
+            <h1 class='text-center'>No pet photos yet</h1>
+            <div class=" row d-flex justify-content-center align-content-center">
+                <!-- Button to Add a new Photo -->
+                <a href="#" class="btn btn-lg btn-secondary row align-self-baseline">Add Photo</a>
+            </div>
+        {% else %}
+            <!-- If there are pet photos -->
+            <h1 class='text-center'>All Pet Photos</h1>
+            <div class="container mb-5">
+                <div class="row mb-5">
+                    {% for photo in pet_photos %}
+                        <!-- First Card with Info for the Pet -->
+                        <div class="card ml-3 mb-3" style="width: 18rem;">
+                            <!-- Image -->
+                            <img src="{{ photo.photo.url }}"
+                                 class="card-img-top" alt="Photo description">
+                            <div class="card-body">
+                                <!-- Info for each pet on the photo -->
+                                {% for pet in photo.tagged_pets.all %}
+                                    <h5 class="card-title">
+                                        {{ pet.name }}{% if pet.date_of_birth %}, age: {{ pet.age }} {% endif %}</h5>
+                                {% endfor %}
+                                <!-- First 30 chars from the description -->
+                                {% if photo.description %}
+                                    <p class="card-text">{{ photo.description|truncatechars:30 }}</p>
+                                {% endif %}
+                                <!-- Button to the Photo Details Page -->
+                                <a href="{% url 'photo details' photo.pk %}" class="btn btn-primary">See details</a>
+                            </div>
+                        </div>
+                        <!-- End First Card -->
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- End Pet Photos -->
+        {% endif %}
+
+    </div>
+{% endblock %}

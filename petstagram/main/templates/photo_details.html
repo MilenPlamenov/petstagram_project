@@ -1,0 +1,70 @@
+{% extends 'home_page.html' %}
+
+{% block nav %}
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:2%">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Add Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Add Photo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navigation Bar -->
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex">
+            <div class="d-inline p-2 w-50">
+                <!-- Image -->
+                <img src="{{ photo.photo.url }}"
+                     class="w-100 rounded mx-auto d-block" alt="Photo description">
+            </div>
+            <div class="d-inline p-2 w-50">
+                <!-- Info for First Pet -->
+                {% for pet in photo.tagged_pets.all %}
+                    <div class="d-flex justify-content-around">
+                        <h5><u>Type:</u> {{ pet.pet_type }}</h5>
+                        <h5><u>Name:</u> {{ pet.name }}</h5>
+                        {% if pet.date_of_birth %}
+                            <h5><u>Age:</u> {{ pet.age }}</h5>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- Description -->
+                {% if photo.description %}
+                    <p class="mt-2">Description: {{ photo.description }}</p>
+                {% endif %}
+                <!-- Likes Button -->
+                <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                <!-- Likes Counter -->
+                <p class="mt-2">Likes: {{ photo.likes }}</p>
+                <!-- Buttons -->
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
