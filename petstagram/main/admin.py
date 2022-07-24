@@ -1,10 +1,17 @@
 from django.contrib import admin
 
-# Register your models here.
-from petstagram.main.models import Profile, Pet, PetPhoto
+from petstagram.main.models import Pet, PetPhoto
 
-admin.site.register(Profile)
 
-admin.site.register(Pet)
+@admin.register(Pet)
+class PetAdmin(admin.ModelAdmin):
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
 
-admin.site.register(PetPhoto)
+
+@admin.register(PetPhoto)
+class PetPhotoAdmin(admin.ModelAdmin):
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()

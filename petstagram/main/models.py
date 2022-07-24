@@ -1,44 +1,13 @@
 from datetime import date
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
-
-
-class Profile(models.Model):
-    picture = models.ImageField(
-        upload_to="profiles/"
-    )
-
-    birth = models.DateField(
-        null=True,
-        blank=True,
-    )
-
-    description = models.TextField(
-        null=True,
-        blank=True,
-    )
-
-    gender = models.CharField(
-        max_length=20,
-        null=True,
-        blank=True,
-        choices=(
-            ('Male', 'Male'),
-            ('Female', 'Female'),
-            ('Do not show', 'Do not show')
-        )
-    )
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # special field extends the User model from Django
-
-    def __str__(self):
-        return self.user
+UserModel = get_user_model()
 
 
 class Pet(models.Model):
     user = models.ForeignKey(
-        User,
+        UserModel,
         on_delete=models.CASCADE,
     )
 
