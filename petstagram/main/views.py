@@ -67,3 +67,4 @@ def create_profile(request):
     }
 
     return render(request, 'profile_create.html', context)
+
