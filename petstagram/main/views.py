@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.db import transaction
 from django.shortcuts import render, redirect
 
@@ -67,4 +67,3 @@ def create_profile(request):
     }
 
     return render(request, 'profile_create.html', context)
-
