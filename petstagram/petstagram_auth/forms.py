@@ -50,3 +50,33 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ('user', 'description', 'birth', 'gender')
+
+
+class EditProfile(forms.ModelForm):
+    class Meta:
+        model = UserModel
+        fields = ('username', 'last_name', 'email')  # added first and last name / easier register in the app
+
+    def __init__(self, *args, **kwargs):  # rewriting the init method to remove the help text from the fields
+        super(EditProfile, self).__init__(*args, **kwargs)
+        for field_name in ['username']:
+            self.fields[field_name].help_text = None
+
+
+class EditExtendedProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('picture', 'birth', 'description')
+
+
+class DeleteProfile(forms.ModelForm):
+    class Meta:
+        model = UserModel
+        fields = ()
+
+
+class DeleteExtendedProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ()
+

@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from petstagram.main.models import Pet, PetPhoto
-from petstagram.petstagram_auth.forms import CreateProfileForm, ProfileForm
+from petstagram.petstagram_auth.forms import CreateProfileForm, ProfileForm, EditProfile, EditExtendedProfile, \
+    DeleteProfile, DeleteExtendedProfile
+from petstagram.petstagram_auth.models import Profile
 
 
 def show_401(request):
@@ -35,7 +37,52 @@ def create_profile(request):
         "profile_form": profile_form,
     }
 
-    return render(request, 'profile_create.html', context)
+    return render(request, 'auth_templates/profile_create.html', context)
+
+
+@login_required(login_url='/petstagramauth/unauthorized/')
+def edit_profile(request):
+    profile = Profile.objects.get(id=request.user.id)
+    if profile.id != request.user.id:
+        return redirect(reverse('index'))
+
+    if request.method == "GET":
+        user_form = EditProfile(instance=request.user)
+        profile_form = EditExtendedProfile(instance=profile)
+    else:
+        user_form = EditProfile(request.POST, request.FILES, instance=request.user)
+        profile_form = EditExtendedProfile(request.POST, request.FILES, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect(reverse('index'))
+
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form,
+    }
+    return render(request, 'auth_templates/profile_edit.html', context)
+
+
+@login_required(login_url='/petstagramauth/unauthorized/')
+def delete_profile(request):
+    profile = Profile.objects.get(id=request.user.id)
+    if profile.id != request.user.id:
+        return redirect(reverse('index'))
+
+    if request.method == "GET":
+        user_form = DeleteProfile(instance=request.user)
+        profile_form = DeleteExtendedProfile(instance=profile)
+    else:
+        profile.picture.delete()
+        profile.delete()
+        request.user.delete()
+        return redirect(reverse('index'))
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form,
+    }
+    return render(request, 'auth_templates/profile_delete.html', context)
 
 
 @login_required(login_url='/petstagramauth/unauthorized/')
@@ -52,5 +99,4 @@ def profile_page_view(request):
         'photos_count': photos_count,
         'photos_likes': photos_likes,
     }
-    return render(request, 'profile_details.html', context)
-
+    return render(request, 'auth_templates/profile_details.html', context)
