@@ -5,8 +5,15 @@ UserModel = get_user_model()
 
 
 class Profile(models.Model):
+    MALE = 'Male'
+    FEMALE = 'FEMALE'
+    DO_NOT_SHOW = 'Do not show'
+    GENDER_CHOICES = (MALE, FEMALE, DO_NOT_SHOW)
+
+    PICTURE_UPLOAD_DIR = 'profiles/'
+
     picture = models.ImageField(
-        upload_to="profiles/"
+        upload_to=PICTURE_UPLOAD_DIR,
     )
 
     birth = models.DateField(
@@ -20,14 +27,10 @@ class Profile(models.Model):
     )
 
     gender = models.CharField(
-        max_length=20,
+        max_length=len(max(GENDER_CHOICES, key=len)),
         null=True,
         blank=True,
-        choices=(
-            ('Male', 'Male'),
-            ('Female', 'Female'),
-            ('Do not show', 'Do not show')
-        )
+        choices=tuple((g, g) for g in GENDER_CHOICES),
     )
 
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE)  # special field extends the User model from Django
