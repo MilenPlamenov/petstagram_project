@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -40,7 +41,7 @@ def create_profile(request):
     return render(request, 'auth_templates/profile_create.html', context)
 
 
-@login_required(login_url='/petstagramauth/unauthorized/')
+@login_required(login_url=settings.LOGIN_URL)
 def edit_profile(request):
     profile = Profile.objects.get(id=request.user.id)
     if profile.id != request.user.id:
@@ -64,7 +65,7 @@ def edit_profile(request):
     return render(request, 'auth_templates/profile_edit.html', context)
 
 
-@login_required(login_url='/petstagramauth/unauthorized/')
+@login_required(login_url=settings.LOGIN_URL)
 def delete_profile(request):
     profile = Profile.objects.get(id=request.user.id)
     if profile.id != request.user.id:
@@ -85,7 +86,7 @@ def delete_profile(request):
     return render(request, 'auth_templates/profile_delete.html', context)
 
 
-@login_required(login_url='/petstagramauth/unauthorized/')
+@login_required(login_url=settings.LOGIN_URL)
 def profile_page_view(request):
     user_pets = Pet.objects.filter(user=request.user)
     pet_photos = PetPhoto.objects \
