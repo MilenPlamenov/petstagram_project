@@ -1,7 +1,9 @@
+from pyexpat import model
+
 from django import forms
 from django.forms import ModelForm
 
-from petstagram.main.models import Pet
+from petstagram.main.models import Pet, PetPhoto
 
 
 class PetForm(ModelForm):
@@ -23,3 +25,16 @@ class PetForm(ModelForm):
         }
 
 
+class PhotoForm(ModelForm):
+    class Meta:
+        model = PetPhoto
+        fields = ('photo', 'description', 'tagged_pets')
+        widgets = {
+
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter description',
+                }
+            ),
+        }

@@ -16,7 +16,7 @@
             </div>
             <div class="d-inline p-2 w-50">
                 <!-- Info for First Pet -->
-                {% for pet in photo.tagged_pets.all %}
+                {% for pet in photo.tagged_pets_set %}
                     <div class="d-flex justify-content-around">
                         <h5><u>Type:</u> {{ pet.pet_type }}</h5>
                         <h5><u>Name:</u> {{ pet.name }}</h5>
@@ -35,8 +35,8 @@
                 <!-- Likes Counter -->
                 <p class="mt-2">Likes: {{ photo.likes }}</p>
                 <!-- Buttons -->
-                <a href="{% url 'edit profile' %}" class="btn btn-primary">Edit</a>
-                <a href="{% url 'delete profile' %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'edit photo' photo.id %}" class="btn btn-primary">Edit</a>
+                <a href="" class="btn btn-danger">Delete</a>
             </div>
         </div>
     </div>
