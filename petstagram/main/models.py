@@ -67,6 +67,11 @@ class PetPhoto(models.Model):
         Pet,
     )
 
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
     description = models.TextField(
         null=True,
         blank=True,
@@ -82,3 +87,15 @@ class PetPhoto(models.Model):
 
     def __str__(self):
         return ' '.join([pet.name for pet in self.tagged_pets.all()])
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    photo = models.ForeignKey(
+        PetPhoto,
+        on_delete=models.CASCADE,
+    )

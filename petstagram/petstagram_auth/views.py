@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.db import transaction
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from petstagram.main.models import Pet, PetPhoto
 from petstagram.petstagram_auth.forms import CreateProfileForm, ProfileForm, EditProfile, EditExtendedProfile, \
-    DeleteProfile, DeleteExtendedProfile
+    DeleteProfile, DeleteExtendedProfile, LoginForm
 from petstagram.petstagram_auth.models import Profile
 
 
@@ -101,3 +102,8 @@ def profile_page_view(request):
         'photos_likes': photos_likes,
     }
     return render(request, 'auth_templates/profile_details.html', context)
+
+
+class PetstagramLoginView(LoginView):
+    template_name = 'auth_templates/login_page.html'
+    form_class = LoginForm

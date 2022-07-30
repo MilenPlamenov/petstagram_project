@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 
 from petstagram.petstagram_auth.models import Profile
@@ -12,12 +12,15 @@ UserModel = get_user_model()
 class CreateProfileForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username', 'last_name')
-        labels = {
-            'username': 'First name',  # using the username as first name.
-        }
+        fields = ('username', 'first_name', 'last_name')
         widgets = {
             'username': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter username',
+                }
+            ),
+            'first_name': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'Enter first name',
@@ -129,3 +132,10 @@ class DeleteExtendedProfile(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ()
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your username', 'class': 'form-control'}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'class': 'form-control'}))

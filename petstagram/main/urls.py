@@ -1,7 +1,7 @@
 from django.urls import path
 
 from petstagram.main.views import index, dashboard_view, photo_detail_view, PetCreateView, PetUpdateView, PetDeleteView, \
-    PhotoCreateView, PhotoUpdateView
+    PhotoCreateView, PhotoUpdateView, like_photo
 
 urlpatterns = (
     path('', index, name='index'),
@@ -12,4 +12,5 @@ urlpatterns = (
     path('pet/delete/<int:pk>/', PetDeleteView.as_view(), name='delete pet'),
     path('photo/add/', PhotoCreateView.as_view(), name='create photo'),
     path('photo/edit/<int:pk>/', PhotoUpdateView.as_view(), name='edit photo'),
+    path('like/<int:pk>/', like_photo, name='like'),
 )

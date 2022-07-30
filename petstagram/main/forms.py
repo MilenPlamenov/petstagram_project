@@ -30,7 +30,6 @@ class PhotoForm(ModelForm):
         model = PetPhoto
         fields = ('photo', 'description', 'tagged_pets')
         widgets = {
-
             'description': forms.Textarea(
                 attrs={
                     'class': 'form-control',
