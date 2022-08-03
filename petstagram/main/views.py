@@ -88,5 +88,9 @@ def like_photo(request, pk):
     if created:
         photo.likes += 1
         photo.save()
+    # else:
+    #     photo.likes -= 1
+    #     photo.like_set.first().delete()
+    #     photo.save()
 
     return redirect(reverse('photo details', args=(pk, )))

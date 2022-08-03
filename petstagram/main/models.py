@@ -58,8 +58,6 @@ class PetPhoto(models.Model):
 
     photo = models.ImageField(
         upload_to=PHOTO_UPLOAD_DIR,
-        null=True,
-        blank=True,
         validators=(
             validate_image,
         )
